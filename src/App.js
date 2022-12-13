@@ -1,23 +1,40 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
 
+const ls = localStorage;
+var i = 0;
+//ls.clear();
+const addToDo = () => {
+  var todo = document.getElementById("input").value;
+  do {
+    i++;
+  } while (ls.getItem(i) != null);
+  ls.setItem(i, todo);
+  window.location.reload();
+};
+
+const deleteToDo = (event) => {
+  //alert(event.target.id);
+  let id = event.target.id;
+  ls.removeitem(id);
+};
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <h2 className="Title">Todo List</h2>
+      <div className="Input">
+        <input id="input" placeholder="To Do"></input>
+        <button onClick={addToDo}>Add</button>
+      </div>
+      <div className="Todo">
+        {Object.keys(ls).map((key) => (
+          <li>
+            {ls.getItem(key)}
+            <button id={key} onClick={deleteToDo}>
+              Delete
+            </button>
+          </li>
+        ))}
+      </div>
     </div>
   );
 }
